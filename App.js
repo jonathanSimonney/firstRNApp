@@ -8,6 +8,7 @@
 
 import React, {Component} from 'react';
 import {Alert, Platform, StyleSheet, Text, TextInput, View, Image, Button} from 'react-native';
+import ProfileField from "./components/profile/ProfileField"
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -18,23 +19,25 @@ const instructions = Platform.select({
 
 type Props = {};
 export default class App extends Component<Props> {
-    displayAge = this.displayAge.bind(this);
+    displayVars = this.displayVars.bind(this);
 
   constructor(props){
     super(props);
-    this.state = {age: '17'};
+    this.name = "toto";
+    this.darkVadorName = "Anakin";
+    this.state = {age: '17', note: '7'};
   }
 
-    static displayHelloWorld(){
-      Alert.alert('hello world', "Hello world")
-    }
-
-    displayAge(){
-        Alert.alert('your age', this.state.age)
+    displayVars(){
+        Alert.alert('your age, your name, your dark vador name, your grade', this.state.age + ", " + this.name + ", " + this.darkVadorName + ", " + this.state.note)
     }
 
     handleAgeInput = (newAge) => {
       this.setState({age: newAge})
+    };
+
+    handleNoteInput = (newNote) => {
+      this.setState({note: newNote})
     };
 
 
@@ -42,23 +45,25 @@ export default class App extends Component<Props> {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>Photo : </Text>
-        <Image style={{height: 50, width: 50}} source={{uri: 'https://i2.wp.com/www.team-ever.com/wp-content/uploads/2015/08/css3-logo-png.png?fit=564%2C376&ssl=1'}}
+        <ProfileField source={{uri: 'https://i2.wp.com/www.team-ever.com/wp-content/uploads/2015/08/css3-logo-png.png?fit=564%2C376&ssl=1'}}
         />
-        <Text style={styles.instructions}>Name: Jonathan</Text>
-        <Text style={styles.instructions}>Age : </Text>
-        <TextInput
+        <ProfileField style={styles.instructions} label={"name"} value={this.name}/>
+        <ProfileField
+            style={styles.instructions}
+            label={"Age"}
             value={this.state.age}
-            onChangeText={this.handleAgeInput}
+            callback={this.handleAgeInput}
         />
-        <Button
-            title="begin"
-            accessibilityLabel="display a text"
-            onPress={App.displayHelloWorld}
-        />
+          <ProfileField
+              style={styles.instructions}
+              label={"Note"}
+              value={this.state.note}
+              callback={this.handleNoteInput}
+          />
           <Button
-              title="How old am I?"
+              title="Give me my data?"
               accessibilityLabel="display the age"
-              onPress={this.displayAge}
+              onPress={this.displayVars}
           />
       </View>
     );
